@@ -1,3 +1,4 @@
+// transaction-form.tsx
 "use client"
 
 import { useState } from "react"
@@ -10,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "@/components/ui/use-toast"
+import { motion } from "framer-motion"
 
 const transactionSchema = z.object({
   amount: z.number().min(0.01, "Amount must be greater than 0"),
@@ -81,7 +83,13 @@ export default function TransactionForm({ onTransactionAdded }: TransactionFormP
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <motion.form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <FormField
           control={form.control}
           name="amount"
@@ -154,8 +162,7 @@ export default function TransactionForm({ onTransactionAdded }: TransactionFormP
         <Button type="submit" disabled={isLoading}>
           {isLoading ? "Adding..." : "Add Transaction"}
         </Button>
-      </form>
+      </motion.form>
     </Form>
   )
 }
-
